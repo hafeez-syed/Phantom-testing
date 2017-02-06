@@ -1,2 +1,2 @@
-# Phantom-testing
-Automating test with Phantomjs
+# PhantomJS Testing
+Automating testing with Phantomjs
