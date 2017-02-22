@@ -4,8 +4,8 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
  Author: Hafeez Syed
- File: 3-webpage-api.js
- Created on 7/2/17 2:02 AM
+ File: 4-rendering.js
+ Created on 22/2/17 11:28 PM
  Project: Packtpub.com-Rapid-Rapid-Phantomjs
  Description: < DESCRIPTION HERE >
 
@@ -22,21 +22,18 @@
 	var systemInfo = require( './common/system-info' );
 	var page = require( 'webpage' ).create();
 
-	var name = systemInfo.args[1];
-	var url = systemInfo.args[2];
+	var url = systemInfo.args[1];
 
 	phantom.onerror = errorHandler;
 
-	if(systemInfo.args.length <= 2) {
-		throw new Error( 'Name or URL is missing.' );
+	if(systemInfo.args.length <= 1) {
+		throw new Error( 'URL is missing.' );
 	}
 
-	console.log(
-		'Hey ' + name + '\n' +
-		'You are on a ' + systemInfo.os.architecture + ' ' + systemInfo.os.name + ' machine.\n' +
-		'You executed ' + systemInfo.args[1] + '.\n\n' +
-		'Opening ' + url + ' . . .'
-	);
+	page.viewportSize = {
+		width: 1200,
+		height: 1000
+	};
 
 	page.open(url, websiteStatus);
 
@@ -44,7 +41,33 @@
 		console.log( '***********************************************' );
 		console.log( 'Opened ' + url + ' with status: ' + status );
 
-		page.render('image.png');
+		page.render('image-1200.png');
+		console.log( 'Rendered image of width 1200px' );
+
+		page.viewportSize = {
+			width: 800,
+			height: 1000
+		};
+
+		page.render('image-800.png');
+		console.log( 'Rendered image of width 800px' );
+
+		page.viewportSize = {
+			width: 500,
+			height: 1000
+		};
+
+		page.render('image-500.png');
+		console.log( 'Rendered image of width 500px' );
+
+		page.clipRect = {
+			top: 0,
+			left: 0,
+			width: 500,
+			height: 300
+		};
+
+		page.render('image-header-500.png');
 
 		phantom.exit();
 	}
